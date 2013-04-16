@@ -40,3 +40,12 @@ http.get('http://localhost:3001/3', print);
 ```
 
 Total : 3 secondes, 1 seul process
+
+Comparaison des API implémentées
+================================
+
+* "Vanilla"
+* async
+* q (promises)
+* fibers
+* domains
