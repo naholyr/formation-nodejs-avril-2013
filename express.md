@@ -79,3 +79,14 @@ var value = req.signedCookies.name;
 // Write
 res.cookie('name', value, {signed: true});
 ```
+
+### Middlewares personnalisés
+
+```javascript
+app.use(function (req, res, next) {
+  // Logging, statistiques, enrichir req & res…
+  doWork();
+  // NE PAS OUBLIER next([err])
+  next();
+});
+```
