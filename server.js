@@ -14,15 +14,7 @@ app.configure(function () {
   app.use(express.methodOverride());
   app.use(express.bodyParser());
   app.use(express.cookieParser('my secret'));
-  app.use(function expressCounter (req, res, next) {
-    req.counter = parseInt(req.signedCookies.counter, 10) || 0;
-    res.incrCounter = function (count) {
-      count = parseInt(count, 10) || 1;
-      req.counter += count;
-      res.cookie('counter', String(req.counter), {signed: true});
-    };
-    next();
-  });
+  app.use(express.session({secret: 'keyboard cat'}));
 });
 app.configure('development', function () {
   console.log('Configuring app for development environment…');
@@ -32,16 +24,18 @@ app.configure('production', function () {
 });
 
 // Routing
-app.get('/counter', function (req, res) {
-  res.send("Value: " + req.counter);
+app.post('/api/auth/login', function (req, res) {
+  if (req.session.user) return res.send('Already logged in', 403);
+  if (!req.body || !req.body.username) return res.send('Field required: username', 400);
+  req.session.user = req.body.username;
+  res.send(204);
 });
-app.get('/counter/incr/:count?', function (req, res) {
-  res.incrCounter(req.params.count);
-  res.send("Value: " + req.counter);
+app.get('/api/auth/status', function (req, res) {
+  res.json({authenticated: !!req.session.user, username: req.session.user});
 });
-
-app.get(/^\/route\/(.+?)(?:\/(\d*))?$/, function (req, res) {
-  res.json(req.params);
+app.post('/api/auth/logout', function (req, res) {
+  req.session.user = null;
+  res.send(204);
 });
 
 // Serveur HTTP standard utilisant notre app
