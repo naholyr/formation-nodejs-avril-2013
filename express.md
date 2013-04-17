@@ -90,3 +90,63 @@ app.use(function (req, res, next) {
   next();
 });
 ```
+
+Routing
+-------
+
+### Route simple
+
+```javascript
+app.<methode>('/route', function (req, res) {
+  res.send('Hello', 200);
+});
+```
+
+Note: le routing fonctionne comme les middlewares, et il est possible de "faire suivre" à la prochaine route matchant l'URL en appelant `next()`.
+
+### Route paramétrée
+
+* Paramètres : `/route/:param1/:param2`
+* Paramètres optionnels : `/route/:param1/:param2?`
+
+```javascript
+req.params.param1
+req.params.param2
+```
+
+Il est possible d'utiliser des expressions régulières :
+
+```javascript
+app.get(/^\/route\/(.+)(?:\/(\d+))?$/, function (req, res) {
+  console.log(req.params);
+});
+```
+
+Sessions
+--------
+
+```javascript
+app.use(express.session({secret: '…'}));
+
+//…
+
+req.session.X = 'Y';
+```
+
+JSON API
+--------
+
+```javascript
+app.use(express.bodyParser())
+```
+
+```sh
+POST /api/auth/login HTTP/1.1
+Content-Type: application/json
+
+{"username": "John"}
+```
+
+```javascript
+req.body.username === "John"
+```

@@ -16,8 +16,10 @@ app.configure(function () {
   app.use(express.cookieParser('my secret'));
   app.use(function expressCounter (req, res, next) {
     req.counter = parseInt(req.signedCookies.counter, 10) || 0;
-    res.incrCounter = function () {
-      res.cookie('counter', String(++req.counter), {signed: true});
+    res.incrCounter = function (count) {
+      count = parseInt(count, 10) || 1;
+      req.counter += count;
+      res.cookie('counter', String(req.counter), {signed: true});
     };
     next();
   });
@@ -33,9 +35,13 @@ app.configure('production', function () {
 app.get('/counter', function (req, res) {
   res.send("Value: " + req.counter);
 });
-app.get('/counter/incr', function (req, res) {
-  res.incrCounter();
+app.get('/counter/incr/:count?', function (req, res) {
+  res.incrCounter(req.params.count);
   res.send("Value: " + req.counter);
+});
+
+app.get(/^\/route\/(.+?)(?:\/(\d*))?$/, function (req, res) {
+  res.json(req.params);
 });
 
 // Serveur HTTP standard utilisant notre app
