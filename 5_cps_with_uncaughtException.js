@@ -19,8 +19,6 @@ function onResult () {
   };
 }
 
-domain.create().on('error', client.onError).run(function () {
-  http.get('http://localhost:3002/2', onResult());
-  http.get('http://localhost:3001/1', onResult());
-  http.get('http://localhost:3003/3', onResult());
-});
+http.get('http://localhost:3002/2', onResult());
+http.get('http://localhost:3001/1', onResult());
+http.get('http://localhost:3003/3', onResult());

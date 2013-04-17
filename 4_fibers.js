@@ -1,18 +1,8 @@
-var http = require('http');
+var client = require('./slow-server-client');
 var Fiber = require('fibers');
 var Future = require('fibers/future');
 
-function get (url) {
-  var future = new Future;
-  http.get(url, function (res) {
-    res.on('readable', function () {
-      future.return(res.read());
-    }).on('error', function (err) {
-      future.throw(err);
-    });
-  });
-  return future;
-}
+var get = Future.wrap(client.get);
 
 Fiber(function () {
   try {
@@ -22,11 +12,10 @@ Fiber(function () {
       get('http://localhost:3001/3')
     ];
     Future.wait(done);
-    console.log(done.map(function (future) {
-      return String(future.get());
-    }).join(''));
+    client.onSuccess(done.map(function (future) {
+      return future.get();
+    }));
   } catch (e) {
-    console.error(e);
-    process.exit(1);
+    client.onError(e);
   }
 }).run();

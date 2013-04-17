@@ -1,28 +1,15 @@
-var http = require('http');
+var client = require('./slow-server-client');
 var async = require('async');
 
 function get (url) {
-  return function (cb) {
-    http.get(url, function (res) {
-      res.on('readable', function () {
-        cb(null, res.read());
-      }).on('error', cb);
-    });
-  };
-}
-
-function onEnd (err, done) {
-  if (err) return onError(err);
-  console.log(done.map(String).join(''));
-}
-
-function onError (err) {
-  console.error(err);
-  process.exit(1);
+  return client.get.bind(null, url);
 }
 
 async.parallel([
   get('http://localhost:3001/2'),
   get('http://localhost:3001/1'),
   get('http://localhost:3001/3')
-], onEnd);
+], function (err, done) {
+  if (err) return client.onError(err);
+  client.onSuccess(done);
+});
