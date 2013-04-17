@@ -36,3 +36,18 @@ server.listen(3003, function (err) {
   console.log('Server ready http://localhost:' + this.address().port);
 });
 ```
+
+Configuration
+-------------
+
+```javascript
+app.configure(function () {
+  // Configure app here
+  app.use(express.logger());
+  // …
+});
+
+app.configure('environment', function () {
+  // only if NODE_ENV = environment
+});
+```
