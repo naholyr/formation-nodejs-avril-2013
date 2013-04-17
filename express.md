@@ -150,3 +150,19 @@ Content-Type: application/json
 ```javascript
 req.body.username === "John"
 ```
+
+Re-use applications
+-------------------
+
+```javascript
+// my-app.js
+var app = module.exports = express();
+
+…
+```
+
+```javascript
+// my-other-app.js
+
+app.use('/my-app-root', require('./my-app'));
+```

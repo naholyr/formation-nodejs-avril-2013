@@ -24,6 +24,9 @@ app.configure('production', function () {
 });
 
 // Routing
+app.get('/', function (req, res) {
+  res.sendfile('index.html');
+});
 app.post('/api/auth/login', function (req, res) {
   if (req.session.user) return res.send('Already logged in', 403);
   if (!req.body || !req.body.username) return res.send('Field required: username', 400);
