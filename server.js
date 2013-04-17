@@ -13,7 +13,6 @@ app.configure(function () {
   app.use(express.compress());
   app.use(express.methodOverride());
   app.use(express.bodyParser());
-  app.use(express.cookieParser());
 });
 app.configure('development', function () {
   console.log('Configuring app for development environment…');
@@ -23,8 +22,14 @@ app.configure('production', function () {
 });
 
 // Routing
-app.get('/*', function (req, res) {
-  res.json({hello: "world"});
+app.get('/counter', function (req, res) {
+  var counter = parseInt(req.cookies.counter, 10) || 0;
+  res.send("Value: " + counter);
+});
+app.get('/counter/incr', function (req, res) {
+  var counter = parseInt(req.cookies.counter, 10) || 0;
+  res.cookie('counter', ++counter);
+  res.send("Value: " + counter);
 });
 
 // Serveur HTTP standard utilisant notre app

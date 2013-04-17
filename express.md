@@ -48,6 +48,25 @@ app.configure(function () {
 });
 
 app.configure('environment', function () {
-  // only if NODE_ENV = environment
+  // only if NODE_ENV = environ  app.use(express.cookieParser());
+ment
 });
+```
+
+Middlewares
+-----------
+
+### Les middlewares standard : exemple des cookies
+
+```javascript
+app.use(express.cookieParser('my secret'));
+```
+
+Cookies non signés :
+
+```javascript
+// Read
+var value = req.cookies.name;
+// Write
+res.cookie('name', value);
 ```
