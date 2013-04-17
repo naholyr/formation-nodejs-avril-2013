@@ -1,8 +1,21 @@
-var http = require('http');
+Express
+=======
 
-var express = require('express');
+* Basé sur "connect"
+ * Collection de middlewares pour serveur HTTP
+* Ajoute le routing
+* Ajoute quelques raccourcis (`res.json` par exemple)
 
+Installation et utilisation
+---------------------------
 
+```sh
+npm install express
+```
+
+Un serveur simple :
+
+```javascript
 // Application express = handler
 var app = express();
 
@@ -22,3 +35,4 @@ server.listen(3003, function (err) {
   }
   console.log('Server ready http://localhost:' + this.address().port);
 });
+```
