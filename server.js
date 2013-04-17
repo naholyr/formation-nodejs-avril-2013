@@ -23,12 +23,12 @@ app.configure('production', function () {
 
 // Routing
 app.get('/counter', function (req, res) {
-  var counter = parseInt(req.cookies.counter, 10) || 0;
+  var counter = parseInt(req.signedCookies.counter, 10) || 0;
   res.send("Value: " + counter);
 });
 app.get('/counter/incr', function (req, res) {
-  var counter = parseInt(req.cookies.counter, 10) || 0;
-  res.cookie('counter', ++counter);
+  var counter = parseInt(req.signedCookies.counter, 10) || 0;
+  res.cookie('counter', String(++counter), {signed: true});
   res.send("Value: " + counter);
 });
 

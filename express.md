@@ -70,3 +70,12 @@ var value = req.cookies.name;
 // Write
 res.cookie('name', value);
 ```
+
+Cookies signés :
+
+```javascript
+// Read
+var value = req.signedCookies.name;
+// Write
+res.cookie('name', value, {signed: true});
+```
