@@ -6,6 +6,7 @@ var ECT = require('ect');
 var rack = require('asset-rack');
 
 var auth = require('./app-auth');
+var game = require('./app-game');
 
 
 // Application express = handler
@@ -58,6 +59,7 @@ app.get('/', function (req, res) {
   res.render('index');
 });
 app.use('/api/auth', auth);
+app.use('/api/game', game);
 
 // Serveur HTTP standard utilisant notre app
 var server = http.createServer(app);

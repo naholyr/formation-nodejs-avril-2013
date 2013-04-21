@@ -6,10 +6,12 @@ function init_auth ($) {
   function refreshStatus () {
     $.get("/api/auth/status", function (res) {
       if (!res.authenticated) {
+        $(document).trigger('unauthenticated');
         eStatus.text('Non identifié');
         eLogin.show();
         eLogout.hide();
       } else {
+        $(document).trigger('authenticated');
         eStatus.text('Identifié (' + res.username + ')');
         eLogin.hide();
         eLogout.show();
