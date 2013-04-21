@@ -18,6 +18,11 @@ app.configure(function () {
   app.engine('html', engine.render);
   app.set('view engine', 'html');
 
+  app.use(function (req, res, next) {
+    res.locals.title = 'Authentification';
+    next();
+  });
+
   app.use(express.logger());
   app.use(express.compress());
   app.use(express.methodOverride());
@@ -34,7 +39,7 @@ app.configure('production', function () {
 
 // Routing
 app.get('/', function (req, res) {
-  res.render('index', {title: 'Authentification'});
+  res.render('index');
 });
 app.use('/api/auth', auth);
 
