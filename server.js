@@ -1,6 +1,8 @@
 var http = require('http');
+var path = require('path');
 
 var express = require('express');
+var ECT = require('ect');
 
 var auth = require('./app-auth');
 
@@ -11,6 +13,11 @@ var app = express();
 // Configuration
 app.configure(function () {
   console.log('Configuring app…');
+
+  var engine = new ECT({root: path.join(__dirname, '/views'), watch: true});
+  app.engine('html', engine.render);
+  app.set('view engine', 'html');
+
   app.use(express.logger());
   app.use(express.compress());
   app.use(express.methodOverride());
@@ -27,7 +34,7 @@ app.configure('production', function () {
 
 // Routing
 app.get('/', function (req, res) {
-  res.sendfile('index.html');
+  res.render('index', {title: 'Authentification'});
 });
 app.use('/api/auth', auth);
 

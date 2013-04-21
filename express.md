@@ -166,3 +166,46 @@ var app = module.exports = express();
 
 app.use('/my-app-root', require('./my-app'));
 ```
+
+Vue
+---
+
+* La plupart du temps, utilisez "consolidate"
+
+### En général…
+
+```javascript
+var consolidate = require('consolidate');
+
+app.engine('html', consolidate['nom du moteur']);
+app.set('view engine', 'html');
+app.set('views', path.join(__dirname, '/views'));
+```
+
+### swig
+
+```javascript
+//…
+
+// Quand-même un peu de config requise…
+var swig = require('swig');
+swig.init({root: path.join(__dirname, '/views')});
+```
+
+Sera très souvent requis car consolidate a la facheuse habitude de **ne pas passer* au moteur l'information de la racine. Du coup l'héritage de template marche rarement du premier coup…
+
+### ect
+
+Ne pas utiliser consolidate !
+
+```javascript
+var ECT = require('ect');
+
+var engine = new ECT({root: path.join(__dirname, '/views'), watch: true});
+app.engine('html', engine.render);
+app.set('view engine', 'html');
+```
+
+### autres…
+
+RTFM
