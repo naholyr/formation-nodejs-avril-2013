@@ -1,0 +1,13 @@
+$red: #3bbfce;
+$margin: 6px;
+
+.content-navigation {
+  border-color: $red;
+  color: darken($red, 9%);
+}
+
+.border {
+  padding: $margin / 2;
+  margin: $margin / 2;
+  border-color: $red;
+}

@@ -3,6 +3,7 @@ var path = require('path');
 
 var express = require('express');
 var ECT = require('ect');
+var rack = require('asset-rack');
 
 var auth = require('./app-auth');
 
@@ -29,6 +30,21 @@ app.configure(function () {
   app.use(express.bodyParser());
   app.use(express.cookieParser('my secret'));
   app.use(express.session({secret: 'keyboard cat'}));
+
+  app.use(new rack.Rack([
+    new rack.StaticAssets({
+      urlPrefix: '/img',
+      dirname: path.join(__dirname, 'assets', 'img')
+    }),
+    new rack.LessAsset({
+      url: '/style.css',
+      filename: path.join(__dirname, 'assets', 'css', 'style.less')
+    }),
+    new rack.SnocketsAsset({
+      url: '/app.js',
+      filename: path.join(__dirname, 'assets', 'js', 'app.js')
+    })
+  ]));
 });
 app.configure('development', function () {
   console.log('Configuring app for development environment…');

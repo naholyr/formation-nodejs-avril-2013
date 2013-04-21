@@ -1,0 +1,12 @@
+-R spec
+-u bdd
+--compilers coffee:coffee-script
+--globals appSettings
+--globals exportAppSettings
+--globals exportPaths 
+--globals exportPaths 
+--globals jsUrl
+--globals css
+--globals js
+--globals templates
+--globals img
