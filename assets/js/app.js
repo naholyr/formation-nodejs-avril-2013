@@ -1,3 +1,4 @@
-//= require 'auth.js'
+//= require 'jquery-1.9.1'
+//= require 'auth'
 
-init_auth();
+jQuery(init_auth);
